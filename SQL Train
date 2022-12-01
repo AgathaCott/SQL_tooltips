@@ -1,0 +1,117 @@
+Exercise #187: Give me a list of all invoices from Redmond, WA sorted from low-to-high by total
+
+SELECT * FROM invoices WHERE billing_city = 'Redmond' ORDER BY total ASC;
+
+Exercise #188: Give me a list of all invoices from Redmond, WA sorted from high-to-low by total
+
+SELECT * FROM invoices WHERE billing_city = 'Redmond' ORDER BY total DESC;
+
+Exercise #189: Give me a list of all invoices from Germany sorted from high-to-low by total
+
+SELECT * FROM invoices WHERE billing_country = 'Germany' ORDER BY total DESC;
+
+Exercise #191: Give me a list of the 10 most expensive invoices from Germany
+
+SELECT * FROM invoices WHERE billing_country = 'Germany' ORDER BY total DESC limit 10
+
+Exercise #191: Give me a list of the 10 most expensive invoices from Boston, MA
+
+SELECT * FROM invoices WHERE billing_city = 'Boston' ORDER BY total DESC limit 10
+
+Exercise #192: Give me a list of the 10 least expensive invoices from Boston, MA
+
+SELECT * FROM invoices WHERE billing_city = 'Boston’ ORDER by total ASC limit 10
+
+Exercise #193: Give me the street addresses of the 3 most expensive invoices from Cupertino, CA
+
+SELECT billing_address FROM invoices WHERE billing_city = 'Cupertino' ORDER BY total DESC limit 3
+
+Exercise #194: Give me a list of all invoices from either Cupertino, CA or Mountain View, CA
+
+SELECT * FROM invoices WHERE billing_city IN('Cupertino','Mountain View')
+
+Exercise #195: Find the number of invoices sent to the city of "Santiago"
+
+SELECT Count(id) from invoices WHERE billing_city = 'Santiago'
+
+Exercise #196: Give me a count of the number of customers by country
+
+Correct! SELECT country, COUNT(id) FROM customers GROUP BY country
+
+Exercise #197: Give me a count of the number of tracks by unit price
+
+Correct! SELECT unit_price, COUNT(id) FROM tracks GROUP BY unit_price
+
+Exercise #198: Give me a count of the number of employees by city
+
+Correct! SELECT city, COUNT(id) FROM employees GROUP BY city
+
+Give me the top 3 countries based on number of customers
+
+Correct! SELECT country, COUNT(id) FROM customers GROUP BY country ORDER BY COUNT(id) DESC limit 3
+
+Exercise #200: Give me a list of the top 5 cities by number of invoices in descending order
+
+Correct! SELECT billing_city, COUNT(id) FROM invoices GROUP BY billing_city ORDER BY COUNT(id) DESC limit 5
+
+Exercise #201: List all artist names alongside the titles of their albums
+
+Correct! SELECT name, title FROM artists JOIN albums ON (artists.id=albums.artist_id)
+
+Exercise #202: List all album names along with their track titles
+
+Correct! SELECT name, title FROM albums JOIN tracks ON (albums.id = album_id)
+
+Exercise #203: List all artist names alongside the titles of their albums, in alphabetical order by artist name
+
+Correct! SELECT name, title FROM artists JOIN albums ON (artists.id = albums.artist_id) ORDER BY name ASC;
+
+Exercise #204: List all customers' first and last names next to the totals on their invoices, ordered by total, high to low
+
+Correct! SELECT first_name, last_name, total FROM customers JOIN invoices ON(customers.id = invoices.customer_id) ORDER BY total DESC;
+
+Exercise #205: Give me the customer (and their invoice) with the highest invoice total
+
+Correct! SELECT * FROM customers JOIN invoices ON(customers.id = invoices.customer_id) ORDER BY total DESC limit 1
+
+Exercise #206: Give me a list of every Aerosmith album
+
+Correct! SELECT * FROM albums JOIN artists ON(albums.artist_id = artists.id) WHERE artists.name = 'Aerosmith'
+
+Exercise #207: Give me a list of every Iron Maiden album
+
+Correct! SELECT * FROM albums JOIN artists ON(albums.artist_id = artists.id) WHERE artists.name = 'Iron Maiden'
+
+Exercise #208: Give me a list of albums that contains a song called "Midnight"
+
+Correct! SELECT * FROM albums JOIN tracks ON(albums.id = tracks.album_id) WHERE name = 'Midnight'
+
+Exercise #209: Give me a list of all artists who have performed a song called "Midnight"
+
+Correct! SELECT * FROM artists JOIN albums ON(artists.id = albums.artist_id) JOIN tracks ON(albums.id = tracks.album_id) WHERE tracks.name = 'Midnight'
+
+Exercise #210: Give me a count of the number of albums by Iron Maiden
+
+Correct! SELECT COUNT(albums.id) FROM albums JOIN artists ON(artists.id = albums.artist_id) WHERE name = 'Iron Maiden'
+
+Exercise #211: List all artists and the number of albums they each have
+
+Correct! SELECT name, COUNT(albums.id) FROM artists JOIN albums ON(artists.id = albums.artist_id) GROUP BY artists.name ORDER BY artists.name ASC;
+
+Exercise #212: List all albums next to the number of tracks they each have
+
+Correct! SELECT title, COUNT(tracks.id) FROM albums JOIN tracks ON(albums.id = tracks.album_id) GROUP BY albums.title ORDER BY albums.title ASC;
+
+Exercise #213: List all artists and the number of albums they each have in descending order and then by artist name in ascending order Correct! SELECT artists.id, artists.name, COUNT(albums.id) FROM artists JOIN albums ON(artists.id = albums.artist_id) GROUP BY artists.id ORDER BY COUNT(albums.id) DESC, artists.name ASC;
+
+Exercise #214: List all albums next to the number of tracks they each have in descending order
+
+SELECT albums.id, albums.title, albums.artist_id, COUNT(tracks.id) FROM albums JOIN tracks ON(albums.id = tracks.album_id) GROUP BY albums.id ORDER BY COUNT(tracks.id) DESC;
+
+Exercise #215: Find the artist with the most albums
+
+Correct! SELECT artists.id, artists.name, COUNT(albums.id) FROM artists JOIN albums ON(artists.id = albums.artist_id) GROUP BY artists.id ORDER BY COUNT(albums.id) DESC limit 1
+
+Exercise #216: Find the album with the most tracks
+
+Correct! SELECT albums.id, albums.title, albums.artist_id, COUNT(tracks.id) FROM albums JOIN tracks ON(albums.id = tracks.album_id) GROUP BY albums.id ORDER BY COUNT(tracks.id) DESC limit 1
